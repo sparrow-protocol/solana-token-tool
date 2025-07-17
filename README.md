@@ -22,7 +22,7 @@ A CLI + utility suite to mint, register, and interact with **SPL Token-2022 toke
 ```bash
 git clone https://github.com/sparrow-protocol/token-toolkit
 cd token-toolkit
-npm install
+pnpm install
 ````
 
 Requires:
@@ -71,7 +71,7 @@ https://solana.com/blink?url=https://your-vercel-app.vercel.app/api/transfer&ico
 
 ```bash
 tsx bin/sparrow.ts upload-metadata \
-  --file metadata/tsprw.json \
+  --file metadata/sprw.json \
   --keypair keypair/authority.json
 ```
 
@@ -80,7 +80,7 @@ tsx bin/sparrow.ts upload-metadata \
 ```bash
 tsx bin/sparrow.ts mint-nft \
   --keypair keypair/authority.json \
-  --metadata metadata/tsprw.json \
+  --metadata metadata/sprw.json \
   --mint-keypair keypair/mint.json \
   --network devnet
 ```
@@ -90,7 +90,7 @@ tsx bin/sparrow.ts mint-nft \
 ```bash
 tsx bin/sparrow.ts register-jupiter \
   --mint <NFT_MINT_ADDRESS> \
-  --symbol TSPRW-NFT \
+  --symbol SPRW-NFT \
   --name "Sparrow NFT" \
   --decimals 0 \
   --logo-uri https://ipfs.io/ipfs/<CID> \
@@ -103,8 +103,8 @@ tsx bin/sparrow.ts register-jupiter \
 ```bash
 tsx bin/sparrow.ts register-jupiter \
   --mint <SPL_TOKEN_MINT> \
-  --symbol TSPRW \
-  --name "Sparrow Token" \
+  --symbol SPRW \
+  --name "Sparrow" \
   --decimals 6 \
   --logo-uri https://ipfs.io/ipfs/<CID> \
   --tags "utility,solana"
@@ -126,7 +126,7 @@ If the Jupiter API fails, check the generated `jupiter-token.json` and submit a 
 │   ├── uploadIPFS.ts           # Uploads metadata/images to IPFS
 │   └── registerOnJupiter.ts    # Jupiter registration logic
 ├── metadata/
-│   └── tsprw.json              # NFT/SPL metadata
+│   └── sprw.json              # NFT/SPL metadata
 ├── keypair/
 │   └── authority.json          # Authority keypair
 ├── api/
@@ -194,7 +194,7 @@ Great — here’s how each feature could be scoped out as a future enhancement 
 
 ### 🗳 **DAO Voting Integration with SPL Governance**
 
-* **What:** Allow TSPRW tokens to be used in DAO proposals and votes.
+* **What:** Allow Sparrow (SPRW) tokens to be used in DAO proposals and votes.
 * **How:** Integrate SPL Governance with:
 
   * Realm creation
