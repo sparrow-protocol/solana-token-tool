@@ -8,12 +8,12 @@ A CLI + utility suite to mint, register, and interact with **SPL Token-2022 toke
 
 ### 🚀 Features
 
-* ✅ **Token-2022** minting with transfer-fee and close-authority support
-* 🖼️ Uploads NFT metadata and logos to **IPFS**
-* 🌍 Registers tokens on **Jupiter Aggregator** (API or GitHub PR format)
-* 🤖 Adds **AI agent endpoints** for smart LLM integration
-* ⚡ Generates Solana **Blink** links via Solana Actions
-* 🔐 CLI wrapper for easy scripting & automation
+* ✅ **Token-2022** minting (NFTs and SPL tokens)
+* 🖼️ Uploads metadata and logos to **IPFS**
+* 🌍 Registers tokens on **Jupiter Aggregator** (API or GitHub PR fallback)
+* 🤖 Adds **AI agent endpoints** for smart LLM interaction
+* ⚡ Generates **Solana Blink** links via Solana Actions
+* 🔐 CLI wrapper for scripting and automation
 
 ---
 
@@ -23,12 +23,12 @@ A CLI + utility suite to mint, register, and interact with **SPL Token-2022 toke
 git clone https://github.com/sparrow-protocol/token-toolkit
 cd token-toolkit
 npm install
-```
+````
 
 Requires:
 
-* `ts-node`, `tsx`, or build via `tsc`
-* Solana CLI (`solana-keygen`, `solana config`)
+* Node.js with `ts-node` or `tsx`
+* Solana CLI (`solana-keygen`, `solana config set`)
 
 ---
 
@@ -36,35 +36,38 @@ Requires:
 
 Sparrow's toolkit wraps common on-chain workflows into a TypeScript CLI:
 
-### 1. 🪙 Minting Token-2022 NFTs
+### 1. 🪙 Mint Token-2022
 
-Creates a new mint with 0 decimals, sends to an associated token account, and uploads metadata to IPFS.
+Create an SPL token (e.g., 6–9 decimals) or NFT (0 decimals), send it to an associated token account, and attach metadata via IPFS.
 
 ### 2. 🖼️ IPFS Upload
 
-Uploads a logo or metadata JSON to a remote IPFS node (e.g., Infura, Pinata), returns a permanent CID-based URI.
+Upload logos or metadata JSON to Infura, Pinata, or another IPFS node—returns a CID-based permanent URL.
 
 ### 3. 🧾 Jupiter Token Registration
 
-Attempts to register the token with Jupiter via API. If the endpoint is unavailable, it generates a `jupiter-token.json` file ready for a PR to [jup-ag/token-list](https://github.com/jup-ag/token-list).
+Registers tokens with Jupiter Aggregator:
+
+* Uses API when available
+* Falls back to JSON file for manual PR to [jup-ag/token-list](https://github.com/jup-ag/token-list)
 
 ### 4. 🤖 AI Agent Endpoint
 
-Exposes a `/api/ai` endpoint compatible with Solana Actions or custom LLM agents. Supports TSPRW ownership checks, token transfers, and more.
+Provides `/api/ai` for agents to query token ownership, trigger transfers, and generate action links.
 
-### 5. 🔗 Blink Link Generation
+### 5. 🔗 Blink Link Generator
 
-With `solana-actions`, generate links like:
+Generate transaction links for wallets or actions like:
 
 ```
-https://solana.com/blink?url=https://your-app.vercel.app/api/transfer&icon=https://ipfs.io/ipfs/<CID>&title=Transfer+NFT
+https://solana.com/blink?url=https://your-vercel-app.vercel.app/api/transfer&icon=https://ipfs.io/ipfs/<CID>&title=Transfer+TSPRW
 ```
 
 ---
 
 ## 🧪 Example Usage
 
-### ✅ Upload NFT Metadata
+### ✅ Upload Metadata to IPFS
 
 ```bash
 tsx bin/sparrow.ts upload-metadata \
@@ -72,7 +75,7 @@ tsx bin/sparrow.ts upload-metadata \
   --keypair keypair/authority.json
 ```
 
-### ✅ Mint a TSPRW NFT
+### ✅ Mint a TSPRW NFT (0 decimals)
 
 ```bash
 tsx bin/sparrow.ts mint-nft \
@@ -82,11 +85,11 @@ tsx bin/sparrow.ts mint-nft \
   --network devnet
 ```
 
-### ✅ Register on Jupiter (manual fallback)
+### ✅ Register NFT on Jupiter (fallback)
 
 ```bash
 tsx bin/sparrow.ts register-jupiter \
-  --mint <MINT_ADDRESS> \
+  --mint <NFT_MINT_ADDRESS> \
   --symbol TSPRW-NFT \
   --name "Sparrow NFT" \
   --decimals 0 \
@@ -95,29 +98,41 @@ tsx bin/sparrow.ts register-jupiter \
   --tags "nft,solana"
 ```
 
-If the API fails, check `jupiter-token.json` and submit a PR to:
+### ✅ Register SPL Token on Jupiter (e.g., 6 decimals)
+
+```bash
+tsx bin/sparrow.ts register-jupiter \
+  --mint <SPL_TOKEN_MINT> \
+  --symbol TSPRW \
+  --name "Sparrow Token" \
+  --decimals 6 \
+  --logo-uri https://ipfs.io/ipfs/<CID> \
+  --tags "utility,solana"
+```
+
+If the Jupiter API fails, check the generated `jupiter-token.json` and submit a PR here:
 👉 [https://github.com/jup-ag/token-list](https://github.com/jup-ag/token-list)
 
 ---
 
 ## 📁 Project Structure
 
-```bash
+```
 .
 ├── bin/
-│   └── sparrow.ts          # CLI entry point
+│   └── sparrow.ts              # CLI entry point
 ├── utils/
-│   ├── mintToken.ts        # Token-2022 mint logic
-│   ├── uploadIPFS.ts       # Uploads metadata/images to IPFS
-│   ├── registerOnJupiter.ts# Token registration with Jupiter
+│   ├── mintToken.ts            # Token-2022 mint logic
+│   ├── uploadIPFS.ts           # Uploads metadata/images to IPFS
+│   └── registerOnJupiter.ts    # Jupiter registration logic
 ├── metadata/
-│   └── tsprw.json          # NFT metadata file
+│   └── tsprw.json              # NFT/SPL metadata
 ├── keypair/
-│   └── authority.json      # Keypair for mint authority
+│   └── authority.json          # Authority keypair
 ├── api/
-│   ├── transfer.ts         # Transfer handler (Blink-compatible)
-│   └── ai.ts               # AI-agent endpoint
-├── .env                    # Environment variables
+│   ├── transfer.ts             # Blink-compatible token transfer handler
+│   └── ai.ts                   # AI-agent endpoint for token queries
+├── .env                        # Local environment config
 └── README.md
 ```
 
@@ -127,7 +142,7 @@ If the API fails, check `jupiter-token.json` and submit a PR to:
 
 ```bash
 MINT_ADDRESS=YourTokenMintAddress
-AUTHORITY_SECRET_KEY=[1,23,...]
+AUTHORITY_SECRET_KEY=[1,2,3,...]
 KEYPAIR_PATH=keypair/authority.json
 NETWORK=devnet
 IMAGE_URI=https://ipfs.io/ipfs/<CID>
@@ -137,10 +152,10 @@ IMAGE_URI=https://ipfs.io/ipfs/<CID>
 
 ## 🔐 Security Notes
 
-* Never commit your `keypair/*.json` or `.env` file to version control
-* Add `.gitignore`:
+* **Do not commit** your `.env` or `keypair/*.json` to git!
+* Add to `.gitignore`:
 
-```bash
+```
 keypair/
 .env
 ```
@@ -149,13 +164,14 @@ keypair/
 
 ## 💡 Contributing
 
-PRs welcome! Submit ideas, bugfixes, or improvements.
+PRs welcome! Features you could contribute:
 
-* Want to add Token-2022 confidential transfers?
-* Looking to support Metaplex NFT standards fully?
-* Need DAO governance support via SPL Governance?
+* 🔒 Token-2022 Confidential Transfers
+* 🎨 Metaplex-compliant NFT metadata
+* 🗳 DAO Voting integration with SPL Governance
+* 🧠 Advanced AI agent support (Dialect, LLMs)
 
-Open an issue or start a discussion.
+Open an issue or start a discussion anytime.
 
 ---
 
