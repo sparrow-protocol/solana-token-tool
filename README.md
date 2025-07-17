@@ -166,10 +166,57 @@ keypair/
 
 PRs welcome! Features you could contribute:
 
-* 🔒 Token-2022 Confidential Transfers
-* 🎨 Metaplex-compliant NFT metadata
-* 🗳 DAO Voting integration with SPL Governance
-* 🧠 Advanced AI agent support (Dialect, LLMs)
+Great — here’s how each feature could be scoped out as a future enhancement to your toolkit:
+
+---
+
+### 🔒 **Token-2022 Confidential Transfers**
+
+* **What:** Enable confidential transfers using Token-2022’s built-in privacy features.
+* **How:** Use `ConfidentialTransferExtension` and handle `enable_confidential_transfer()` in your mint script.
+* **Additions:**
+
+  * CLI flag: `--confidential`
+  * Support zk-proof uploads or verification if needed.
+
+---
+
+### 🎨 **Metaplex-Compliant NFT Metadata**
+
+* **What:** Conform to the `Metaplex Token Metadata` standard (v1.0+).
+* **How:** Use `@metaplex-foundation/mpl-token-metadata` to create and update metadata accounts.
+* **Additions:**
+
+  * CLI: `mint-metaplex-nft`
+  * Structured metadata validator (name, symbol, uri, attributes)
+
+---
+
+### 🗳 **DAO Voting Integration with SPL Governance**
+
+* **What:** Allow TSPRW tokens to be used in DAO proposals and votes.
+* **How:** Integrate SPL Governance with:
+
+  * Realm creation
+  * Proposal + vote management
+* **Additions:**
+
+  * CLI: `init-governance`, `create-proposal`, `cast-vote`
+  * Optional: Anchor integration or Realms API support
+
+---
+
+### 🧠 **Advanced AI Agent Support (Dialect, LLMs)**
+
+* **What:** Expand `/api/ai` to:
+
+  * Handle natural language token actions
+  * Integrate with [Dialect](https://www.dialect.to/) or custom AI agent LLMs
+* **Additions:**
+
+  * GPT-style chat intent → action mapping
+  * Dialect webhook and message thread support
+  * `GET /api/ai/intents` and `POST /api/ai/execute`
 
 Open an issue or start a discussion anytime.
 
