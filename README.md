@@ -60,7 +60,7 @@ Provides `/api/ai` for agents to query token ownership, trigger transfers, and g
 Generate transaction links for wallets or actions like:
 
 ```
-https://solana.com/blink?url=https://your-vercel-app.vercel.app/api/transfer&icon=https://ipfs.io/ipfs/<CID>&title=Transfer+TSPRW
+https://solana.com/blink?url=https://blinks.sparrowprotocol.vercel.app/api/transfer&icon=https://ipfs.io/ipfs/<CID>&title=Transfer+SPRW
 ```
 
 ---
